@@ -1,21 +1,22 @@
 <?php
-// Enable error reporting for debugging
+// Enable error reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Make sure this is a POST request
+// Ensure it's a POST request
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-  http_response_code(405); // Method Not Allowed
+  http_response_code(405);
   echo "Invalid request method.";
   exit;
 }
 
-// Get posted form data safely
+// Get customer details
 $name    = $_POST['name'] ?? '';
 $email   = $_POST['email'] ?? '';
 $phone   = $_POST['phone'] ?? '';
 $special = $_POST['special_requests'] ?? '';
 
+// Get cookie quantities (default to 0)
 $items = [
   "Banana Pudding Cookies"    => $_POST['banana_pudding'] ?? 0,
   "Red Velvet Cookies"        => $_POST['red_velvet'] ?? 0,
@@ -26,7 +27,7 @@ $items = [
   "Strawberry Crunch Cookies" => $_POST['strawberry_crunch'] ?? 0
 ];
 
-// Pricing function
+// Price logic based on quantity
 function getPrice($qty) {
   switch ((int)$qty) {
     case 1:  return 4;
@@ -37,52 +38,53 @@ function getPrice($qty) {
   }
 }
 
-// Build the order summary
+// Build order summary
 $orderDetails = "";
 $total = 0;
 
-foreach ($items as $treat => $qty) {
-  if ($qty > 0) {
+foreach ($items as $cookie => $qty) {
+  if ((int)$qty > 0) {
     $price = getPrice($qty);
     $total += $price;
-    $orderDetails .= "$treat: $qty - \$$price\n";
+    $orderDetails .= "$cookie: $qty - \$$price\n";
   }
 }
 
-// If no items were selected, return error
+// Error if nothing ordered
 if (trim($orderDetails) === "") {
   http_response_code(400);
-  echo "No items selected.";
+  echo "You must select at least one cookie.";
   exit;
 }
 
 // Email to customer
 $customerSubject = "Your Jess So Sweet Treats Order Confirmation";
-$customerMessage = "Hi $name,\n\nThank you for placing an order with Jess So Sweet Treats! Here's what you ordered:\n\n";
-$customerMessage .= $orderDetails;
+$customerMessage = "Hi $name,\n\nThanks for ordering from Jess So Sweet Treats!\n\n";
+$customerMessage .= "Your Order:\n$orderDetails";
 $customerMessage .= "\nTotal: \$$total\n\n";
 $customerMessage .= "Special Requests:\n$special\n\n";
-$customerMessage .= "We'll be in touch soon to confirm pickup or delivery.\n\n";
-$customerMessage .= "🍪 Sweetly,\nJess So Sweet Treats";
+$customerMessage .= "We’ll reach out soon to confirm pickup or delivery.\n\n";
+$customerMessage .= "🍪 With love,\nJess So Sweet Treats";
 
-// Email to you (the business)
+// Email to business owner
 $ownerSubject = "New Order from $name";
-$ownerMessage = "New order received:\n\n$orderDetails\nTotal: \$$total\n\n";
-$ownerMessage .= "Customer Info:\nName: $name\nEmail: $email\nPhone: $phone\n";
+$ownerMessage = "You've got a new order:\n\n$orderDetails\nTotal: \$$total\n\n";
+$ownerMessage .= "Name: $name\nEmail: $email\nPhone: $phone\n\n";
 $ownerMessage .= "Special Requests:\n$special";
 
-// Send emails
+// Send both emails
 $customerSent = mail($email, $customerSubject, $customerMessage);
 $ownerSent    = mail("jleonardmalone@gmail.com", $ownerSubject, $ownerMessage);
 
-// Optional: send SMS via email-to-text (carrier dependent)
-// mail("6293087729@vtext.com", $ownerSubject, $ownerMessage);
+// Optional: Send SMS alert via email-to-text
+// mail("6293087729@vtext.com", $ownerSubject, $ownerMessage); // Verizon example
 
+// Send response to frontend
 if ($customerSent && $ownerSent) {
   http_response_code(200);
-  echo "Order received and emails sent!";
+  echo "Order placed successfully.";
 } else {
   http_response_code(500);
-  echo "There was a problem sending emails. Please try again.";
+  echo "There was a problem sending emails.";
 }
 ?>
