@@ -1,30 +1,20 @@
-let cart = [];
+document.getElementById("orderForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
+  const form = e.target;
+  const data = new FormData(form);
 
-function addToCart(item) {
-  cart.push(item);
-  updateCartDisplay();
-}
-
-function updateCartDisplay() {
-  const cartList = document.getElementById("cart");
-  if (!cartList) return;
-  cartList.innerHTML = "";
-  cart.forEach(item => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    cartList.appendChild(li);
-  });
-}
-
-function checkout() {
-  if (cart.length === 0) {
-    alert("Cart is empty!");
-    return;
-  }
-  document.getElementById("checkout-form").style.display = "block";
-  document.getElementById("cartSummaryInput").value = cart.join(", ");
-}
+  fetch("order.php", {
+    method: "POST",
+    body: data,
+  })
+    .then((res) => {
+      if (res.ok) {
+        document.getElementById("confirmationPopup").classList.remove("hidden");
+        form.reset();
+      } else {
+        alert("There was a problem. Please try again.");
+      }
+    })
+    .catch((err) => alert("Error: " + err));
+});
