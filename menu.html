@@ -3,76 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menu & Order</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Menu & Order - Jess So Sweet Treats</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
   <header>
-    <h1>Order Sweet Treats</h1>
+    <h1>Order Your Treats</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="menu.html">Menu / Order</a>
-      <a href="gallery.html">Gallery & FAQs</a>
+      <a href="menu.html">Menu</a>
+      <a href="gallery.html">Gallery & FAQ</a>
     </nav>
   </header>
 
-  <main>
-    <section class="menu-section">
-      <h2>Cookies</h2>
-      <ul class="menu-list">
-        <li>Red Velvet <button onclick="addToCart('Red Velvet')">Add to Cart</button></li>
-        <li>S'mores <button onclick="addToCart('S\'mores')">Add to Cart</button></li>
-        <li>Cookie Monster <button onclick="addToCart('Cookie Monster')">Add to Cart</button></li>
-        <li>Salted Caramel <button onclick="addToCart('Salted Caramel')">Add to Cart</button></li>
-        <li>Cookie Butter <button onclick="addToCart('Cookie Butter')">Add to Cart</button></li>
-        <li>Cookies N Creme <button onclick="addToCart('Cookies N Creme')">Add to Cart</button></li>
-        <li>Turtle <button onclick="addToCart('Turtle')">Add to Cart</button></li>
-        <li>Banana Pudding <button onclick="addToCart('Banana Pudding')">Add to Cart</button></li>
-        <li>Strawberry Crunch <button onclick="addToCart('Strawberry Crunch')">Add to Cart</button></li>
-      </ul>
+  <section class="menu">
+    <form id="orderForm" action="order.php" method="POST">
+      <div class="treats-grid">
+        <!-- Each treat includes name, image, quantity selector -->
+        <div class="treat">
+          <img src="IMG_1401.jpeg" alt="Banana Pudding Cookies" />
+          <label>Banana Pudding Cookies
+            <select name="banana_pudding">
+              <option value="0">Qty</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+            </select>
+          </label>
+        </div>
+        <div class="treat">
+          <img src="IMG_1402.jpeg" alt="Red Velvet Cookies" />
+          <label>Red Velvet Cookies
+            <select name="red_velvet">
+              <option value="0">Qty</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+            </select>
+          </label>
+        </div>
+        <div class="treat">
+          <img src="IMG_1403.jpeg" alt="Salted Caramel Cookies" />
+          <label>Salted Caramel Cookies
+            <select name="salted_caramel">
+              <option value="0">Qty</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+            </select>
+          </label>
+        </div>
+        <div class="treat">
+          <img src="IMG_1404.jpeg" alt="S’mores Cookies" />
+          <label>S’mores Cookies
+            <select name="smores">
+              <option value="0">Qty</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+            </select>
+          </label>
+        </div>
+        <div class="treat">
+          <img src="IMG_1405.jpeg" alt="Cookie Butter Cookies" />
+          <label>Cookie Butter Cookies
+            <select name="cookie_butter">
+              <option value="0">Qty</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+            </select>
+          </label>
+        </div>
+        <div class="treat">
+          <img src="IMG_1406.jpeg" alt="Cookie Monster Cookies" />
+          <label>Cookie Monster Cookies
+            <select name="cookie_monster">
+              <option value="0">Qty</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+            </select>
+          </label>
+        </div>
+        <div class="treat">
+          <img src="IMG_1407.jpeg" alt="Strawberry Crunch Cookies" />
+          <label>Strawberry Crunch Cookies
+            <select name="strawberry_crunch">
+              <option value="0">Qty</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+            </select>
+          </label>
+        </div>
+      </div>
 
-      <h3>Prices:</h3>
-      <p>3 for $10 | 6 for $20 | 12 for $35</p>
-      <p>*Holiday/birthday customization prices vary*</p>
+      <textarea name="special_requests" placeholder="Special requests, allergies, or occasion notes..."></textarea>
+      <input type="text" name="name" placeholder="Your Full Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <input type="tel" name="phone" placeholder="Phone Number (for text confirmation)" required />
 
-      <h2>Dipped Treats</h2>
-      <ul>
-        <li>Dipped Oreos</li>
-        <li>Dipped Rice Krispies</li>
-        <li>Dipped Pretzels</li>
-      </ul>
-    </section>
+      <button type="submit" class="gold-btn">Place Order</button>
+    </form>
 
-    <section class="cart-section">
-      <h2>Your Cart</h2>
-      <ul id="cart"></ul>
-      <button onclick="checkout()">Checkout</button>
-    </section>
-
-    <section class="checkout-form" id="checkout-form" style="display: none;">
-      <h2>Checkout Form</h2>
-      <form action="submit.php" method="POST">
-        <label>Full Name: <input type="text" name="name" required></label>
-        <label>Email: <input type="email" name="email" required></label>
-        <label>Phone: <input type="tel" name="phone" required></label>
-        <label>Shipping Address: <textarea name="address" required></textarea></label>
-        <label>Preferred Payment Method:
-          <select name="payment">
-            <option>Cash App</option>
-            <option>PayPal</option>
-            <option>Zelle</option>
-          </select>
-        </label>
-        <input type="hidden" name="cartSummary" id="cartSummaryInput">
-        <button type="submit">Place Order</button>
-      </form>
-    </section>
-  </main>
+    <div id="confirmationPopup" class="popup hidden">
+      <p>🎉 Thank you for your order! We’ll be in touch soon. 🍪</p>
+    </div>
+  </section>
 
   <footer>
-    <p>Shipping available across the U.S. | Fees vary by order</p>
+    <p>© 2025 Jess So Sweet Treats</p>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
