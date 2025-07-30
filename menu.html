@@ -3,128 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menu & Order - Jess So Sweet Treats</title>
+  <title>Jess So Sweet Treats – Menu</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
 </head>
 <body>
   <header>
-    <h1>Order Your Treats</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="menu.html">Menu</a>
-      <a href="gallery.html">Gallery & FAQ</a>
-    </nav>
+    <h1>Jess So Sweet Treats</h1>
+    <h2>Order Your Favorites</h2>
   </header>
 
-  <section class="menu">
-    <form id="orderForm" action="order.php" method="POST">
-      <div class="treats-grid">
+  <main>
+    <form id="orderForm">
+      <section class="treats">
         <div class="treat">
-          <img src="IMG_1401.jpeg" alt="Banana Pudding Cookies" />
-          <label>Banana Pudding Cookies
-            <select name="banana_pudding">
-              <option value="0">Qty</option>
-              <option value="1">1</option>
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="12">12</option>
-            </select>
-          </label>
+          <img src="IMG_1401.jpeg" alt="Banana Pudding Cookies"/>
+          <label>Banana Pudding Cookies</label>
+          <select name="banana_pudding">
+            <option value="0">0</option>
+            <option value="1">1 - $4</option>
+            <option value="3">3 - $10</option>
+            <option value="6">6 - $20</option>
+            <option value="12">12 - $35</option>
+          </select>
         </div>
-        <div class="treat">
-          <img src="IMG_1402.jpeg" alt="Red Velvet Cookies" />
-          <label>Red Velvet Cookies
-            <select name="red_velvet">
-              <option value="0">Qty</option>
-              <option value="1">1</option>
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="12">12</option>
-            </select>
-          </label>
-        </div>
-        <div class="treat">
-          <img src="IMG_1403.jpeg" alt="Salted Caramel Cookies" />
-          <label>Salted Caramel Cookies
-            <select name="salted_caramel">
-              <option value="0">Qty</option>
-              <option value="1">1</option>
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="12">12</option>
-            </select>
-          </label>
-        </div>
-        <div class="treat">
-          <img src="IMG_1404.jpeg" alt="S’mores Cookies" />
-          <label>S’mores Cookies
-            <select name="smores">
-              <option value="0">Qty</option>
-              <option value="1">1</option>
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="12">12</option>
-            </select>
-          </label>
-        </div>
-        <div class="treat">
-          <img src="IMG_1405.jpeg" alt="Cookie Butter Cookies" />
-          <label>Cookie Butter Cookies
-            <select name="cookie_butter">
-              <option value="0">Qty</option>
-              <option value="1">1</option>
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="12">12</option>
-            </select>
-          </label>
-        </div>
-        <div class="treat">
-          <img src="IMG_1406.jpeg" alt="Cookie Monster Cookies" />
-          <label>Cookie Monster Cookies
-            <select name="cookie_monster">
-              <option value="0">Qty</option>
-              <option value="1">1</option>
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="12">12</option>
-            </select>
-          </label>
-        </div>
-        <div class="treat">
-          <img src="IMG_1407.jpeg" alt="Strawberry Crunch Cookies" />
-          <label>Strawberry Crunch Cookies
-            <select name="strawberry_crunch">
-              <option value="0">Qty</option>
-              <option value="1">1</option>
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="12">12</option>
-            </select>
-          </label>
-        </div>
-      </div>
 
-      <textarea name="special_requests" placeholder="Special requests, allergies, or occasion notes..."></textarea>
-      <input type="text" name="name" placeholder="Your Full Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <input type="tel" name="phone" placeholder="Phone Number (for text confirmation)" required />
+        <div class="treat">
+          <img src="IMG_1402.jpeg" alt="Red Velvet Cookies"/>
+          <label>Red Velvet Cookies</label>
+          <select name="red_velvet">
+            <option value="0">0</option>
+            <option value="1">1 - $4</option>
+            <option value="3">3 - $10</option>
+            <option value="6">6 - $20</option>
+            <option value="12">12 - $35</option>
+          </select>
+        </div>
 
-      <div class="total-box">
-        <p><strong>Total:</strong> $<span id="totalAmount">0.00</span></p>
-      </div>
+        <div class="treat">
+          <img src="IMG_1403.jpeg" alt="Salted Caramel Cookies"/>
+          <label>Salted Caramel Cookies</label>
+          <select name="salted_caramel">
+            <option value="0">0</option>
+            <option value="1">1 - $4</option>
+            <option value="3">3 - $10</option>
+            <option value="6">6 - $20</option>
+            <option value="12">12 - $35</option>
+          </select>
+        </div>
 
-      <button type="submit" class="gold-btn">Place Order</button>
+        <div class="treat">
+          <img src="IMG_1404.jpeg" alt="S’mores Cookies"/>
+          <label>S’mores Cookies</label>
+          <select name="smores">
+            <option value="0">0</option>
+            <option value="1">1 - $4</option>
+            <option value="3">3 - $10</option>
+            <option value="6">6 - $20</option>
+            <option value="12">12 - $35</option>
+          </select>
+        </div>
+
+        <div class="treat">
+          <img src="IMG_1405.jpeg" alt="Cookie Butter Cookies"/>
+          <label>Cookie Butter Cookies</label>
+          <select name="cookie_butter">
+            <option value="0">0</option>
+            <option value="1">1 - $4</option>
+            <option value="3">3 - $10</option>
+            <option value="6">6 - $20</option>
+            <option value="12">12 - $35</option>
+          </select>
+        </div>
+
+        <div class="treat">
+          <img src="IMG_1406.jpeg" alt="Cookie Monster Cookies"/>
+          <label>Cookie Monster Cookies</label>
+          <select name="cookie_monster">
+            <option value="0">0</option>
+            <option value="1">1 - $4</option>
+            <option value="3">3 - $10</option>
+            <option value="6">6 - $20</option>
+            <option value="12">12 - $35</option>
+          </select>
+        </div>
+
+        <div class="treat">
+          <img src="IMG_1407.jpeg" alt="Strawberry Crunch Cookies"/>
+          <label>Strawberry Crunch Cookies</label>
+          <select name="strawberry_crunch">
+            <option value="0">0</option>
+            <option value="1">1 - $4</option>
+            <option value="3">3 - $10</option>
+            <option value="6">6 - $20</option>
+            <option value="12">12 - $35</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="customer-info">
+        <label for="name">Your Name</label>
+        <input type="text" name="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" name="phone" required>
+
+        <label for="special_requests">Special Requests / Notes</label>
+        <textarea name="special_requests" rows="4"></textarea>
+      </section>
+
+      <section class="summary">
+        <p><strong>Total:</strong> $<span id="total">0</span></p>
+        <button type="submit">Place Order</button>
+        <p id="statusMsg"></p>
+      </section>
     </form>
+  </main>
 
-    <div id="confirmationPopup" class="popup hidden">
-      <p>🎉 Thank you for your order! We’ll be in touch soon. 🍪</p>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Jess So Sweet Treats</p>
-  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
