@@ -20,12 +20,12 @@
   <section class="menu">
     <form id="orderForm" action="order.php" method="POST">
       <div class="treats-grid">
-        <!-- Each treat includes name, image, quantity selector -->
         <div class="treat">
           <img src="IMG_1401.jpeg" alt="Banana Pudding Cookies" />
           <label>Banana Pudding Cookies
             <select name="banana_pudding">
               <option value="0">Qty</option>
+              <option value="1">1</option>
               <option value="3">3</option>
               <option value="6">6</option>
               <option value="12">12</option>
@@ -37,6 +37,7 @@
           <label>Red Velvet Cookies
             <select name="red_velvet">
               <option value="0">Qty</option>
+              <option value="1">1</option>
               <option value="3">3</option>
               <option value="6">6</option>
               <option value="12">12</option>
@@ -48,6 +49,7 @@
           <label>Salted Caramel Cookies
             <select name="salted_caramel">
               <option value="0">Qty</option>
+              <option value="1">1</option>
               <option value="3">3</option>
               <option value="6">6</option>
               <option value="12">12</option>
@@ -59,6 +61,7 @@
           <label>S’mores Cookies
             <select name="smores">
               <option value="0">Qty</option>
+              <option value="1">1</option>
               <option value="3">3</option>
               <option value="6">6</option>
               <option value="12">12</option>
@@ -70,6 +73,7 @@
           <label>Cookie Butter Cookies
             <select name="cookie_butter">
               <option value="0">Qty</option>
+              <option value="1">1</option>
               <option value="3">3</option>
               <option value="6">6</option>
               <option value="12">12</option>
@@ -81,6 +85,7 @@
           <label>Cookie Monster Cookies
             <select name="cookie_monster">
               <option value="0">Qty</option>
+              <option value="1">1</option>
               <option value="3">3</option>
               <option value="6">6</option>
               <option value="12">12</option>
@@ -92,6 +97,7 @@
           <label>Strawberry Crunch Cookies
             <select name="strawberry_crunch">
               <option value="0">Qty</option>
+              <option value="1">1</option>
               <option value="3">3</option>
               <option value="6">6</option>
               <option value="12">12</option>
@@ -104,6 +110,10 @@
       <input type="text" name="name" placeholder="Your Full Name" required />
       <input type="email" name="email" placeholder="Your Email" required />
       <input type="tel" name="phone" placeholder="Phone Number (for text confirmation)" required />
+
+      <div class="total-box">
+        <p><strong>Total:</strong> $<span id="totalAmount">0.00</span></p>
+      </div>
 
       <button type="submit" class="gold-btn">Place Order</button>
     </form>
