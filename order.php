@@ -1,90 +1,86 @@
 <?php
-// Enable error reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Ensure it's a POST request
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// Only allow POST
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
   http_response_code(405);
   echo "Invalid request method.";
   exit;
 }
 
-// Get customer details
-$name    = $_POST['name'] ?? '';
-$email   = $_POST['email'] ?? '';
-$phone   = $_POST['phone'] ?? '';
-$special = $_POST['special_requests'] ?? '';
+// CUSTOMER DETAILS
+$name = $_POST["name"] ?? '';
+$email = $_POST["email"] ?? '';
+$phone = $_POST["phone"] ?? '';
+$special = $_POST["special_requests"] ?? '';
 
-// Get cookie quantities (default to 0)
-$items = [
-  "Banana Pudding Cookies"    => $_POST['banana_pudding'] ?? 0,
-  "Red Velvet Cookies"        => $_POST['red_velvet'] ?? 0,
-  "Salted Caramel Cookies"    => $_POST['salted_caramel'] ?? 0,
-  "S’mores Cookies"           => $_POST['smores'] ?? 0,
-  "Cookie Butter Cookies"     => $_POST['cookie_butter'] ?? 0,
-  "Cookie Monster Cookies"    => $_POST['cookie_monster'] ?? 0,
-  "Strawberry Crunch Cookies" => $_POST['strawberry_crunch'] ?? 0
+// COOKIE QUANTITIES
+$cookies = [
+  "Banana Pudding Cookies" => (int) ($_POST["banana_pudding"] ?? 0),
+  "Red Velvet Cookies" => (int) ($_POST["red_velvet"] ?? 0),
+  "Salted Caramel Cookies" => (int) ($_POST["salted_caramel"] ?? 0),
+  "S’mores Cookies" => (int) ($_POST["smores"] ?? 0),
+  "Cookie Butter Cookies" => (int) ($_POST["cookie_butter"] ?? 0),
+  "Cookie Monster Cookies" => (int) ($_POST["cookie_monster"] ?? 0),
+  "Strawberry Crunch Cookies" => (int) ($_POST["strawberry_crunch"] ?? 0)
 ];
 
-// Price logic based on quantity
-function getPrice($qty) {
-  switch ((int)$qty) {
-    case 1:  return 4;
-    case 3:  return 10;
-    case 6:  return 20;
+// PRICING FUNCTION
+function calculatePrice($qty) {
+  switch ($qty) {
+    case 1: return 4;
+    case 3: return 10;
+    case 6: return 20;
     case 12: return 35;
     default: return 0;
   }
 }
 
-// Build order summary
-$orderDetails = "";
+// CALCULATE ORDER
 $total = 0;
+$order_summary = "";
 
-foreach ($items as $cookie => $qty) {
-  if ((int)$qty > 0) {
-    $price = getPrice($qty);
+foreach ($cookies as $cookie => $qty) {
+  if ($qty > 0) {
+    $price = calculatePrice($qty);
+    $order_summary .= "$cookie — $qty for \$$price\n";
     $total += $price;
-    $orderDetails .= "$cookie: $qty - \$$price\n";
   }
 }
 
-// Error if nothing ordered
-if (trim($orderDetails) === "") {
+// CHECK FOR EMPTY ORDER
+if ($total === 0) {
   http_response_code(400);
-  echo "You must select at least one cookie.";
+  echo "Error: No items selected.";
   exit;
 }
 
-// Email to customer
-$customerSubject = "Your Jess So Sweet Treats Order Confirmation";
-$customerMessage = "Hi $name,\n\nThanks for ordering from Jess So Sweet Treats!\n\n";
-$customerMessage .= "Your Order:\n$orderDetails";
-$customerMessage .= "\nTotal: \$$total\n\n";
-$customerMessage .= "Special Requests:\n$special\n\n";
-$customerMessage .= "We’ll reach out soon to confirm pickup or delivery.\n\n";
-$customerMessage .= "🍪 With love,\nJess So Sweet Treats";
+// BUILD EMAIL
+$admin_email = "jleonardmalone@gmail.com";
+$subject = "New Order from $name – Jess So Sweet Treats";
 
-// Email to business owner
-$ownerSubject = "New Order from $name";
-$ownerMessage = "You've got a new order:\n\n$orderDetails\nTotal: \$$total\n\n";
-$ownerMessage .= "Name: $name\nEmail: $email\nPhone: $phone\n\n";
-$ownerMessage .= "Special Requests:\n$special";
+$message = "Customer Name: $name\n";
+$message .= "Email: $email\n";
+$message .= "Phone: $phone\n\n";
+$message .= "Order Summary:\n$order_summary";
+$message .= "\nTotal: \$$total\n\n";
+$message .= "Special Requests:\n$special\n";
 
-// Send both emails
-$customerSent = mail($email, $customerSubject, $customerMessage);
-$ownerSent    = mail("jleonardmalone@gmail.com", $ownerSubject, $ownerMessage);
+// HEADERS
+$headers = "From: orders@jesssosweettreats.com\r\n";
+$headers .= "Reply-To: $email\r\n";
 
-// Optional: Send SMS alert via email-to-text
-// mail("6293087729@vtext.com", $ownerSubject, $ownerMessage); // Verizon example
+// SEND EMAILS
+$sent_to_owner = mail($admin_email, $subject, $message, $headers);
+$sent_to_customer = mail($email, "Your Order Confirmation – Jess So Sweet Treats", "Thank you for your order!\n\n$message", $headers);
 
-// Send response to frontend
-if ($customerSent && $ownerSent) {
+// RETURN RESPONSE
+if ($sent_to_owner && $sent_to_customer) {
   http_response_code(200);
   echo "Order placed successfully.";
 } else {
   http_response_code(500);
-  echo "There was a problem sending emails.";
+  echo "Email sending failed. Owner: " . ($sent_to_owner ? "yes" : "no") . ", Customer: " . ($sent_to_customer ? "yes" : "no");
 }
 ?>
