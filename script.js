@@ -1,48 +1,64 @@
-function updateTotal() {
-  const selects = document.querySelectorAll("form select");
-  let totalQty = 0;
-
-  selects.forEach(select => {
-    totalQty += parseInt(select.value) || 0;
-  });
-
-  let total = 0;
-
-  if (totalQty >= 12) {
-    total = 35;
-  } else if (totalQty >= 6) {
-    total = 20;
-  } else if (totalQty >= 3) {
-    total = 10;
-  } else {
-    total = totalQty * 4;
+// Price calculation based on quantity
+function calculatePrice(qty) {
+  qty = parseInt(qty);
+  switch (qty) {
+    case 1: return 4;
+    case 3: return 10;
+    case 6: return 20;
+    case 12: return 35;
+    default: return 0;
   }
-
-  document.getElementById("totalAmount").textContent = total.toFixed(2);
 }
 
-document.querySelectorAll("form select").forEach(select => {
-  select.addEventListener("change", updateTotal);
+// Update total when user changes selection
+function updateTotal() {
+  const selects = document.querySelectorAll('select');
+  let total = 0;
+
+  selects.forEach(select => {
+    total += calculatePrice(select.value);
+  });
+
+  document.getElementById('total').innerText = total;
+}
+
+// Attach change listeners to all selects
+document.querySelectorAll('select').forEach(select => {
+  select.addEventListener('change', updateTotal);
 });
 
-document.getElementById("orderForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+// Handle form submission
+document.getElementById('orderForm').addEventListener('submit', function (e) {
+  e.preventDefault(); // Stop default page reload
 
   const form = e.target;
-  const data = new FormData(form);
+  const formData = new FormData(form);
 
-  fetch("order.php", {
-    method: "POST",
-    body: data,
+  // Show loading message
+  const statusMsg = document.getElementById('statusMsg');
+  statusMsg.innerText = "Submitting your order...";
+
+  fetch('order.php', {
+    method: 'POST',
+    body: formData
   })
-    .then((res) => {
-      if (res.ok) {
-        document.getElementById("confirmationPopup").classList.remove("hidden");
-        form.reset();
-        updateTotal();
-      } else {
-        alert("There was a problem. Please try again.");
-      }
+    .then(response => {
+      if (!response.ok) throw new Error('Network error');
+      return response.text();
     })
-    .catch((err) => alert("Error: " + err));
+    .then(result => {
+      // Show confirmation message
+      statusMsg.style.color = "green";
+      statusMsg.innerText = "Thank you! Your order has been placed.";
+      form.reset();
+      updateTotal();
+      alert("Thank you! Your order was submitted successfully.");
+    })
+    .catch(error => {
+      statusMsg.style.color = "red";
+      statusMsg.innerText = "There was a problem placing your order. Please try again.";
+    });
 });
+
+// Initialize total on page load
+updateTotal();
